@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    triggers{
+        pollSCM'H/5 * * * *'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Installing dependencies...'
+                sh 'npm install'
+            }
+        }
+
+        stage('Unit Test') {
+            steps {
+                echo 'Running unit tests...'
+                sh 'npm run unit-test'
+            }
+        }
+
+        stage('Integration Test') {
+            steps {
+                echo 'Running integration tests...'
+                sh 'npm run integration-test'
+            }
+        }
+
+        stage('Delivery') {
+            steps {
+                echo 'Building and publishing...'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
+}
