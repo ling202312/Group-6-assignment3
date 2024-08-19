@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    tools {
+        nodejs 'NPM'  // Use the name you configured
+    }
     stages {
         stage('Build') {
             steps {
